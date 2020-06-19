@@ -141,6 +141,7 @@ export class AppComponent {
             label: 'spike',
             pointRadius: 10,
             showLine: false,
+            pointStyle: 'cross'
           });
         }
 
@@ -150,6 +151,7 @@ export class AppComponent {
             label: 'threshold',
             pointRadius: 10,
             showLine: false,
+            pointStyle: 'triangle'
           });
         }
         if (lineAbIR.length > 0) {
@@ -158,6 +160,7 @@ export class AppComponent {
             label: 'interquartile_range',
             pointRadius: 10,
             showLine: false,
+            pointStyle: 'line'
           });
         }
         if (lineAbLS.length > 0) {
@@ -166,6 +169,7 @@ export class AppComponent {
             label: 'level_shift',
             pointRadius: 10,
             showLine: false,
+            pointStyle: 'rect'
           });
         }
         if (lineAbSeasonal.length > 0) {
@@ -174,6 +178,7 @@ export class AppComponent {
             label: 'seasonal',
             pointRadius: 10,
             showLine: false,
+            pointStyle: 'star'
           });
         }
       });
@@ -240,6 +245,7 @@ export class AppComponent {
             label: 'spike',
             pointRadius: 10,
             showLine: false,
+            pointStyle: 'cross'
           });
         }
 
@@ -249,6 +255,7 @@ export class AppComponent {
             label: 'threshold',
             pointRadius: 10,
             showLine: false,
+            pointStyle: 'triangle'
           });
         }
         if (lineAbIR.length > 0) {
@@ -257,6 +264,7 @@ export class AppComponent {
             label: 'interquartile_range',
             pointRadius: 10,
             showLine: false,
+            pointStyle: 'line'
           });
         }
         if (lineAbLS.length > 0) {
@@ -265,6 +273,7 @@ export class AppComponent {
             label: 'level_shift',
             pointRadius: 10,
             showLine: false,
+            pointStyle: 'rect'
           });
         }
         if (lineAbSeasonal.length > 0) {
@@ -273,6 +282,7 @@ export class AppComponent {
             label: 'seasonal',
             pointRadius: 10,
             showLine: false,
+            pointStyle: 'star'
           });
         }
       });
