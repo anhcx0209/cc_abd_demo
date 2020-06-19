@@ -7,11 +7,15 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class AdService {  
+export class AdService {
 
   constructor(private http: HttpClient) { }
 
-  getData(): Observable<AdPoint[]> {
+  getData(): Observable<any> {
     return of(DUMMY_RES);
+  }
+
+  getDataHttp(url: string): Observable<any> {
+    return this.http.get(url);
   }
 }

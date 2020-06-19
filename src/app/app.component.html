@@ -1,4 +1,14 @@
-<div style="width: 40%;">
-  <canvas baseChart [chartType]="'line'" [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="true">
-  </canvas>
+<div>
+  <input [(ngModel)]="customUrl">
+  <button (click)="redrawGraph()">
+    Run
+  </button>
+
+  <div class="ngx-chart-wrapper">
+    <div style="display: block">
+      <canvas baseChart [datasets]="chartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+        [legend]="lineChartLegend" [chartType]="lineChartType">
+      </canvas>
+    </div>
+  </div>
 </div>
