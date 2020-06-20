@@ -79,7 +79,7 @@ export class AppComponent {
   }
 
   redrawGraph() {
-    if (this.customUrl === '') {
+    if (this.customUrl !== '') {
       this.dataSeries = [];
       // get data from bucket
       this.dataService.getDataHttp(this.customUrl).subscribe(res => {
