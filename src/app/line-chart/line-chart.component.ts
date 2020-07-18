@@ -87,8 +87,7 @@ export class LineChartComponent implements AfterViewInit {
     this.brush = d3.brushX()                        // Add the brush feature using the d3.brush function
       .extent([[0, 0], [this.width, this.height]])  // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
       .on("end", function () {
-        let extent = d3.event.selection;
-        console.log(extent);
+        let extent = d3.event.selection;        
         let x = d3.scaleTime().domain(d3.extent(vm.data, function (d) { return d.x; })).range([0, vm.width]);
 
         // If no selection, back to initial coordinate. Otherwise, update X axis domain
@@ -110,7 +109,8 @@ export class LineChartComponent implements AfterViewInit {
             .x(function (d) { return x(d.x) })
             .y(function (d) { return y(d.y) })
           );
-        // draw the point        
+        // draw the point
+        vm.svg.selectAll('.circle').attr("cx", function (d) { return x(d.x) }).attr("cy", function (d) { return y(d.y); });
       }); // Each time the brush selection changes, trigger the 'updateChart' function
 
     // Create the line variable: where both the line and the brush take place
@@ -129,14 +129,27 @@ export class LineChartComponent implements AfterViewInit {
         .y(function (d) { return y(d.y) })
       );
 
-
-    // Draw abnomanly    
-
     // Add the brushing
     this.line
       .append("g")
       .attr("class", "brush")
       .call(this.brush);
+
+    // Double Click
+    vm = this;
+    svg.on("dblclick", function () {
+      let x = d3.scaleTime().domain(d3.extent(vm.data, function (d) { return d.x; })).range([0, vm.width]);
+      x.domain(d3.extent(vm.data, function (d) { return d.x; }))
+      vm.xAxis.transition().call(d3.axisBottom(x))
+      vm.line
+        .select('.line')
+        .transition()
+        .attr("d", d3.line<MetricPoint>()
+          .x(function (d) { return x(d.x) })
+          .y(function (d) { return y(d.y) })
+        );
+      META_POINTS.forEach(sp => vm.drawCircles(vm.svg, sp));
+    });
   }
 
   idled() { this.idleTimeout = null; }
@@ -144,11 +157,11 @@ export class LineChartComponent implements AfterViewInit {
   drawCircles(svg, metaPoint: MetaPoint) {
     let x = d3.scaleTime().domain(d3.extent(this.data, function (d) { return d.x; })).range([0, this.width]);
     let y = d3.scaleLinear().domain([0, d3.max(this.data, function (d) { return +d.y; })]).range([this.height, 0]);
-    const points = this.data.filter(ele => { return (Array.isArray(ele.anomaly_types) && ele.anomaly_types.indexOf(metaPoint.name) !== -1) });    
+    const points = this.data.filter(ele => { return (Array.isArray(ele.anomaly_types) && ele.anomaly_types.indexOf(metaPoint.name) !== -1) });
     // clear
     svg.selectAll("circles").remove();
     // draw
-    svg.selectAll("circles").data(points).enter().append("circle").attr("fill", metaPoint.color).attr("stroke", "none")
+    svg.selectAll("circles").data(points).enter().append("circle").attr("class", "circle").attr("fill", metaPoint.color).attr("stroke", "none")
       .attr("cx", function (d) { return x(d.x) })
       .attr("cy", function (d) { return y(d.y) })
       .attr("r", 3)
