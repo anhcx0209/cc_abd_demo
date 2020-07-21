@@ -16,9 +16,10 @@ div.tooltip {
   position: absolute;
   text-align: center;
   width: 200px;
-  height: 50px;
+  height: 70px;
   padding: 2px;
-  font: 12px sans-serif;
+  font: 13px sans-serif;
+  font-weight: bold;
   background: lightsteelblue;
   border: 0px;
   border-radius: 8px;
@@ -62,16 +63,10 @@ ul {
 
 ul li::before {
   content: "\2022";
-  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-  /* Change the color */
   font-weight: bold;
-  /* If you want it to be bold */
   display: inline-block;
-  /* Needed to add space between the bullet and the text */
   width: 1em;
-  /* Also needed for space (tweak if needed) */
   margin-left: -1em;
-  /* Also needed for space (tweak if needed) */
   font-size: 43px;
   position: relative;
   top: 10px;
