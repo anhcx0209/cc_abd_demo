@@ -1,10 +1,42 @@
-<div>
-  <input [(ngModel)]="customUrl">
-  <button (click)="redrawGraph()">
-    Run
-  </button>
+<div fxLayout="column" fxLayoutAlign="center">
+  <div fxLayout="row" fxLayoutAlign="center">
+    <h1>Abnormally Detection</h1>
+  </div>
+  <br>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <!-- <input [(ngModel)]="customUrl"> -->
+    <div class="full-width-100">
+      <mat-form-field class="full-width">
+        <mat-label>Url</mat-label>
+        <input matInput [(ngModel)]="customUrl" placeholder="Enter your url">
+      </mat-form-field>
+      <button mat-raised-button (click)="redrawGraph()" style="width: 100px; margin-left: 10px;">Run</button>
+    </div>
+  </div>
+  <br>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <div>
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Color?
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ul>
+          <li class="threshold">threshold</li>
+          <li class="spike">spike</li>
+          <li class="interquartile_range">interquartile_range</li>
+          <li class="level_shift">level_shift</li>
+          <li class="seasonal">seasonal</li>
+        </ul>
+      </mat-expansion-panel>
+    </div>
 
-  <div class="ngx-chart-wrapper">
-    <app-line-chart *ngIf="chartData" [data]="chartData"></app-line-chart>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center">
+    <div class="ngx-chart-wrapper">
+      <app-line-chart *ngIf="chartData" [data]="chartData"></app-line-chart>
+    </div>
   </div>
 </div>

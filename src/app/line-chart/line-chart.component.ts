@@ -8,7 +8,7 @@ const META_POINTS = [
   { name: 'threshold', color: 'red' },
   { name: 'spike', color: 'blue' },
   { name: 'interquartile_range', color: 'orange' },
-  { name: 'level_shift', color: 'yellow' },
+  { name: 'level_shift', color: 'violet' },
   { name: 'seasonal', color: 'green' },
 ];
 
@@ -49,7 +49,7 @@ export class LineChartComponent implements AfterViewInit {
   createChart() {
     let element = this.chartContainer.nativeElement;
 
-    this.width = element.offsetWidth - this.margin.left - this.margin.right;
+    this.width = 1000 - this.margin.left - this.margin.right;
     this.height = 600 - this.margin.top - this.margin.bottom;
 
     let svg = d3.select("#dataViz")
@@ -87,7 +87,7 @@ export class LineChartComponent implements AfterViewInit {
     this.brush = d3.brushX()                        // Add the brush feature using the d3.brush function
       .extent([[0, 0], [this.width, this.height]])  // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
       .on("end", function () {
-        let extent = d3.event.selection;        
+        let extent = d3.event.selection;
         let x = d3.scaleTime().domain(d3.extent(vm.data, function (d) { return d.x; })).range([0, vm.width]);
 
         // If no selection, back to initial coordinate. Otherwise, update X axis domain
@@ -160,11 +160,29 @@ export class LineChartComponent implements AfterViewInit {
     const points = this.data.filter(ele => { return (Array.isArray(ele.anomaly_types) && ele.anomaly_types.indexOf(metaPoint.name) !== -1) });
     // clear
     svg.selectAll("circles").remove();
+
+    let div = d3.select("#dataViz").append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
+
     // draw
     svg.selectAll("circles").data(points).enter().append("circle").attr("class", "circle").attr("fill", metaPoint.color).attr("stroke", "none")
       .attr("cx", function (d) { return x(d.x) })
       .attr("cy", function (d) { return y(d.y) })
-      .attr("r", 3)
+      .attr("r", 5)
+      .on("mouseover", function (d) {
+        div.transition()
+          .duration(200)
+          .style("opacity", .9);
+        div.html(d3.timeFormat("%e %B")(d.x) + "<br/>" + d.y + "</br>" + d.anomaly_types)
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - 28) + "px");
+      })
+      .on("mouseout", function (d) {
+        div.transition()
+          .duration(500)
+          .style("opacity", 0);
+      });
   }
 
 }
